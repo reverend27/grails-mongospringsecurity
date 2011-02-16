@@ -29,28 +29,28 @@ class MongoUserDetailsService implements GrailsUserDetailsService {
 		
 		def user = User.findByUsername(username)
 
-			if (!user) {
-				log.warn("User not found: $username")
-				throw new UsernameNotFoundException('User not found', username)
-			}
+        if (!user) {
+            log.warn("User not found: $username")
+            throw new UsernameNotFoundException('User not found', username)
+        }
 
-			if(log.debugEnabled) {
-				log.debug("User found: $username")
-			}
+        if(log.debugEnabled) {
+            log.debug("User found: $username")
+        }
 
-			def roles = NO_ROLES
-			if (loadRoles) {
-				def authorities = user.authorities?.collect {new GrantedAuthorityImpl(it.authority)}
-				if(authorities) {
-					roles = authorities
-				}
-			}
+        def roles = NO_ROLES
+        if (loadRoles) {
+            def authorities = user.authorities?.collect {new GrantedAuthorityImpl(it.authority)}
+            if(authorities) {
+                roles = authorities
+            }
+        }
 
-			if(log.debugEnabled) {
-				log.debug("User roles: $roles")
-			}
+        if(log.debugEnabled) {
+            log.debug("User roles: $roles")
+        }
 
-			return createUserDetails(user, roles)
+        return createUserDetails(user, roles)
 	
 	}
 
